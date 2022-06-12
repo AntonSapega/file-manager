@@ -1,24 +1,22 @@
 import { createWriteStream } from 'fs';
-import path from 'path';
-import { pipeline } from 'stream';
+import { Readable } from 'stream';
+import { pipeline } from 'stream/promises';
+import { storeController } from './storage/initStore.js';
 
-// File was created successfully
-const createFile = (dirPath, fileName) => {
-  const newFilePath = path.join(dirPath, fileName);
-  const writeStream = createWriteStream(newFilePath);
-  // const output = process.stdout.write('File was created successfully\n')
+const createFile = async (fileName) => {
+  const absolutePath = storeController.getAbsolutePath(fileName);
 
-  // pipeline(
-  //   writeStream,
-  //   output,
-  //   // (err) => {
-  //   //   if (err) {
-  //   //     throw Error('Operation Failed');
-  //   //   } else {
-  //   //     console.log('Hi')
-  //   //   }
-  //   // }
-  // );
+  const writeStream = createWriteStream(absolutePath);
+  const readStream = new Readable({
+    read() {},
+  });
+  readStream.push(null);
+
+  try {
+    await pipeline(readStream, writeStream);
+  } catch (e) {
+    throw Error('Operation failed');
+  }
 };
 
 export { createFile };

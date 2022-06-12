@@ -44,7 +44,7 @@ async function flManager() {
           storeController.printCurrentDir();
           break;
         case 'add':
-          createFile(storeController.getCurrentDir(), param);
+          await createFile(param);
           storeController.printCurrentDir();
           break;
         case 'rn':
