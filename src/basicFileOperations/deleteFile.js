@@ -1,5 +1,5 @@
 import { rm } from 'fs/promises';
-import { storeController } from './storage/initStore.js';
+import { storeController } from '../storage/initStore.js';
 
 const deleteFile = async (sourcePath) => {
   try {

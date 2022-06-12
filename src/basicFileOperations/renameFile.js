@@ -1,6 +1,6 @@
 import { rename } from 'fs/promises';
 import { join, dirname } from 'path';
-import { storeController } from './storage/initStore.js';
+import { storeController } from '../storage/initStore.js';
 
 const renameFile = async (targetFilePath, newFileName) => {
   try {

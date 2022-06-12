@@ -1,7 +1,7 @@
 import { createWriteStream } from 'fs';
 import { Readable } from 'stream';
 import { pipeline } from 'stream/promises';
-import { storeController } from './storage/initStore.js';
+import { storeController } from '../storage/initStore.js';
 
 const createFile = async (fileName) => {
   const absolutePath = storeController.getAbsolutePath(fileName);

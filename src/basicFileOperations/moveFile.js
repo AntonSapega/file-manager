@@ -1,6 +1,6 @@
 import { rm } from 'fs/promises';
 import { copyFile } from './copyFile.js';
-import { storeController } from './storage/initStore.js';
+import { storeController } from '../storage/initStore.js';
 
 const moveFile = async (sourcePath, newDirectoryPath) => {
   const primaryFilePath = storeController.getAbsolutePath(sourcePath);

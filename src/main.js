@@ -1,12 +1,12 @@
 import * as readline from 'node:readline';
 import { readDirectory } from './readDirectory.js';
-import { readFile } from './readFile.js';
-import { createFile } from './createFile.js';
+import { readFile } from './basicFileOperations/readFile.js';
+import { createFile } from './basicFileOperations/createFile.js';
 import { storeController, initStore } from './storage/initStore.js';
-import { renameFile } from './renameFile.js';
-import { copyFile } from './copyFile.js';
-import { moveFile } from './moveFile.js';
-import { deleteFile } from './deleteFile.js';
+import { renameFile } from './basicFileOperations/renameFile.js';
+import { copyFile } from './basicFileOperations/copyFile.js';
+import { moveFile } from './basicFileOperations/moveFile.js';
+import { deleteFile } from './basicFileOperations/deleteFile.js';
 import { osHandler } from './os/osHandler.js';
 import { makeHash } from './makeHash.js';
 import { compress } from './zip/compress.js';

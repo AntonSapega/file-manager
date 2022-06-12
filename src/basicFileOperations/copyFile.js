@@ -1,7 +1,7 @@
 import { createReadStream, createWriteStream } from 'fs';
 import { pipeline } from 'stream/promises';
 import { basename, join } from 'path';
-import { storeController } from './storage/initStore.js';
+import { storeController } from '../storage/initStore.js';
 
 const copyFile = async (fileForCopyPath, destinationDir) => {
   const targetFilePath = storeController.getAbsolutePath(fileForCopyPath);

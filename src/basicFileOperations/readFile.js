@@ -1,5 +1,5 @@
 import { createReadStream } from 'fs';
-import { storeController } from './storage/initStore.js';
+import { storeController } from '../storage/initStore.js';
 import { pipeline } from 'stream/promises';
 import { Writable } from 'stream';
 
