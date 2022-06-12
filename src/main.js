@@ -1,10 +1,8 @@
-import { getUserName } from './getUserName.js';
 import * as readline from 'node:readline';
 import { readDirectory } from './readDirectory.js';
-import { setCurrentDir } from './setCurrentDir.js';
 import { readFile } from './readFile.js';
 import { createFile } from './createFile.js';
-import { userName, dirStateController, init } from './init.js';
+import { storeController, initStore } from './storage/initStore.js';
 import { renameFile } from './renameFile.js';
 import { copyFile } from './copyFile.js';
 import { moveFile } from './moveFile.js';
@@ -15,92 +13,81 @@ import { compress } from './zip/compress.js';
 import { decompress } from './zip/decompress.js';
 
 async function flManager() {
-  // INITIAL FM
-  // const userName = getUserName();
-  // greetUser(userName);
-  // const directoryState = setCurrentDir();
-  // directoryState.init();
-  // printCurrentDirectory(directoryState.getCurrentPath());
-  //************** */
-
-  // INIT FM (SECOND VERSION);
-  init();
-  // *******************
+  initStore();
+  storeController.printCurrentDir();
 
   const rl = readline.createInterface(process.stdin, process.stdout);
 
   rl.on('line', async (line) => {
     const [command, ...args] = line.split(' ');
     const param = args.join(' ');
-    // console.log(command);
-    // console.log(param);
 
     try {
       switch (command) {
         case '.exit':
-          finishFM(rl, userName);
+          finishFM(rl);
           break;
         case 'ls':
-          await readDirectory(dirStateController.getCurrentPath());
-          dirStateController.printCurrentPath();
+          await readDirectory(storeController.getCurrentDir());
+          storeController.printCurrentDir();
           break;
         case 'cd':
-          await dirStateController.cd(param);
-          dirStateController.printCurrentPath();
+          await storeController.cd(param);
+          storeController.printCurrentDir();
           break;
         case 'up':
-          dirStateController.up();
-          dirStateController.printCurrentPath();
+          storeController.up();
+          storeController.printCurrentDir();
           break;
         case 'cat':
           await readFile(param);
-          dirStateController.printCurrentPath();
+          storeController.printCurrentDir();
           break;
         case 'add':
-          createFile(dirStateController.getCurrentPath(), param);
-          dirStateController.printCurrentPath();
+          createFile(storeController.getCurrentDir(), param);
+          storeController.printCurrentDir();
           break;
         case 'rn':
           const renameData = param.split(' ');
           const [path, newFileName] = renameData;
           await renameFile(path, newFileName);
-          dirStateController.printCurrentPath();
+          storeController.printCurrentDir();
           break;
         case 'cp':
           const copyData = param.split(' ');
           const [sourcePath, finalDir] = copyData;
           await copyFile(sourcePath, finalDir);
-          dirStateController.printCurrentPath();
+          storeController.printCurrentDir();
           break;
         case 'mv':
           const moveData = param.split(' ');
           const [currentPathToFile, destination] = moveData;
           await moveFile(currentPathToFile, destination);
-          dirStateController.printCurrentPath();
+          storeController.printCurrentDir();
           break;
         case 'rm':
           await deleteFile(param);
-          dirStateController.printCurrentPath();
+          storeController.printCurrentDir();
           break;
         case 'os':
           osHandler(param);
-          dirStateController.printCurrentPath();
+          storeController.printCurrentDir();
           break;
         case 'hash':
           await makeHash(param);
-          dirStateController.printCurrentPath();
+          storeController.printCurrentDir();
           break;
         case 'compress':
           const compressData = param.split(' ');
           const [pathToSourceFile, finalPath] = compressData;
           await compress(pathToSourceFile, finalPath);
-          dirStateController.printCurrentPath();
+          storeController.printCurrentDir();
           break;
         case 'decompress':
           const decompressData = param.split(' ');
           const [routeToSourceFile, finalRoute] = decompressData;
           await decompress(routeToSourceFile, finalRoute);
-          dirStateController.printCurrentPath();
+          storeController.printCurrentDir();
           break;
         default:
           console.log('Invalid input');
@@ -111,12 +98,12 @@ async function flManager() {
   });
 
   rl.on('SIGINT', () => {
-    finishFM(rl, userName);
+    finishFM(rl);
   });
 }
 
-function finishFM(readLineInstance, name) {
-  console.log(`Thank you for using File Manager, ${name}!`);
+function finishFM(readLineInstance) {
+  storeController.sayGoodbye();
   readLineInstance.close();
 }
 

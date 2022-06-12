@@ -1,15 +1,19 @@
 import os from 'os';
 import { access } from 'node:fs/promises';
 import * as pathMethod from 'path';
+import { getUserName } from './getUserName.js';
 
-const setCurrentDir = () => {
-  let path = null; // current path
+const store = () => {
+  let currentDir = null;
 
   return {
+    userName: null,
     _homeDir: os.homedir(),
 
     init() {
-      path = this._homeDir;
+      this.userName = getUserName();
+      currentDir = this._homeDir;
+      this.greet(this.userName);
     },
     async isExist(pathToDestination) {
       try {
@@ -22,32 +26,38 @@ const setCurrentDir = () => {
       if (destination.startsWith(this._homeDir)) {
         return destination;
       }
-      const newPath = pathMethod.join(path, destination);
+      const newPath = pathMethod.join(currentDir, destination);
       return newPath;
     },
     async cd(url) {
       try {
         const sourcePath = this.getAbsolutePath(url);
         await this.isExist(sourcePath);
-        path = sourcePath;
+        currentDir = sourcePath;
       } catch (e) {
         throw Error('Operation failed');
       }
     },
     up() {
-      const newPath = pathMethod.join(path, '..');
+      const newPath = pathMethod.join(currentDir, '..');
       if (!newPath.startsWith(this._homeDir)) {
         throw Error('Operation failed');
       }
-      path = newPath;
+      currentDir = newPath;
     },
-    printCurrentPath() {
-      console.log(`You are currently in ${path}`);
+    printCurrentDir() {
+      console.log(`You are currently in ${currentDir}`);
     },
-    getCurrentPath() {
-      return path;
+    getCurrentDir() {
+      return currentDir;
+    },
+    greet() {
+      console.log(`Welcome to the File Manager, ${this.userName}\n`);
+    },
+    sayGoodbye() {
+      console.log(`Thank you for using File Manager, ${this.userName}!`);
     },
   };
 };
 
-export { setCurrentDir };
+export { store };
