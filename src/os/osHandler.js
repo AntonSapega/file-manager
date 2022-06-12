@@ -7,7 +7,7 @@ const osHandler = (command) => {
       break;
     case '--cpus':
       const cpus = os.cpus();
-      console.log(`Overall amount: ${cpus.length}`);
+      console.log(`Overall amount of CPUS: ${cpus.length}`);
       cpus.forEach((cpu) => {
         console.log('Model and clock rate: ', cpu.model);
       });
