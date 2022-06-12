@@ -1,5 +1,5 @@
 import * as readline from 'node:readline';
-import { readDirectory } from './readDirectory.js';
+import { readDirectory } from './folderOperations/readDirectory.js';
 import { readFile } from './basicFileOperations/readFile.js';
 import { createFile } from './basicFileOperations/createFile.js';
 import { storeController, initStore } from './storage/initStore.js';
