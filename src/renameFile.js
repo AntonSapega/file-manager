@@ -7,7 +7,6 @@ const renameFile = async (targetFilePath, newFileName) => {
     const targetPath = dirStateController.getAbsolutePath(targetFilePath);
     const pathToDir = dirname(targetPath);
     const pathToNewFile = join(pathToDir, newFileName);
-    console.log('pathToNewFile', pathToNewFile);
 
     await rename(targetPath, pathToNewFile);
   } catch {

@@ -9,6 +9,10 @@ import { renameFile } from './renameFile.js';
 import { copyFile } from './copyFile.js';
 import { moveFile } from './moveFile.js';
 import { deleteFile } from './deleteFile.js';
+import { osHandler } from './os/osHandler.js';
+import { makeHash } from './makeHash.js';
+import { compress } from './zip/compress.js';
+import { decompress } from './zip/decompress.js';
 
 async function flManager() {
   // INITIAL FM
@@ -49,7 +53,7 @@ async function flManager() {
           dirStateController.printCurrentPath();
           break;
         case 'cat':
-          await readFile(dirStateController.getCurrentPath(), param);
+          await readFile(param);
           dirStateController.printCurrentPath();
           break;
         case 'add':
@@ -76,6 +80,26 @@ async function flManager() {
           break;
         case 'rm':
           await deleteFile(param);
+          dirStateController.printCurrentPath();
+          break;
+        case 'os':
+          osHandler(param);
+          dirStateController.printCurrentPath();
+          break;
+        case 'hash':
+          await makeHash(param);
+          dirStateController.printCurrentPath();
+          break;
+        case 'compress':
+          const compressData = param.split(' ');
+          const [pathToSourceFile, finalPath] = compressData;
+          await compress(pathToSourceFile, finalPath);
+          dirStateController.printCurrentPath();
+          break;
+        case 'decompress':
+          const decompressData = param.split(' ');
+          const [routeToSourceFile, finalRoute] = decompressData;
+          await decompress(routeToSourceFile, finalRoute);
           dirStateController.printCurrentPath();
           break;
         default:

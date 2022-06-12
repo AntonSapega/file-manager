@@ -13,9 +13,8 @@ const copyFile = async (fileForCopyPath, destinationDir) => {
     const readStream = createReadStream(targetFilePath, { flags: 'r' }, 'utf8');
     const writeStream = createWriteStream(fullPath, { flags: 'w' });
     await pipeline(readStream, writeStream);
-    // return true;
   } catch (error) {
-    throw Error('FROM COPY FILE ERROR');
+    throw Error('Operation failed');
   }
 };
 

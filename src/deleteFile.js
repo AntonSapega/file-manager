@@ -7,7 +7,7 @@ const deleteFile = async (sourcePath) => {
     await dirStateController.isExist(absolutePath);
     await rm(absolutePath);
   } catch (error) {
-    throw Error('ERRor from delete file');
+    throw Error('Operation failed');
   }
 };
 
