@@ -8,9 +8,13 @@ const osHandler = (command) => {
     case '--cpus':
       const cpus = os.cpus();
       console.log(`Overall amount of CPUS: ${cpus.length}`);
-      cpus.forEach((cpu) => {
-        console.log('Model and clock rate: ', cpu.model);
+      const requestedInfo = cpus.map((cpu) => {
+        return {
+          model: cpu.model,
+          speed: cpu.speed / 1000,
+        };
       });
+      console.log(requestedInfo);
       break;
     case '--homedir':
       console.log(os.homedir());
