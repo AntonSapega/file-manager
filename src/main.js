@@ -8,7 +8,7 @@ import { copyFile } from './basicFileOperations/copyFile.js';
 import { moveFile } from './basicFileOperations/moveFile.js';
 import { deleteFile } from './basicFileOperations/deleteFile.js';
 import { osHandler } from './os/osHandler.js';
-import { makeHash } from './makeHash.js';
+import { makeHash } from './hash/makeHash.js';
 import { compress } from './zip/compress.js';
 import { decompress } from './zip/decompress.js';
 

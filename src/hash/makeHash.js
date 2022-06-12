@@ -1,6 +1,6 @@
 import { createReadStream } from 'fs';
 import crypto from 'crypto';
-import { storeController } from './storage/initStore.js';
+import { storeController } from '../storage/initStore.js';
 
 const makeHash = async (pathToFile) => {
   const absolutePath = storeController.getAbsolutePath(pathToFile);
