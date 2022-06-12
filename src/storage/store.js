@@ -9,6 +9,7 @@ const store = () => {
   return {
     userName: null,
     _homeDir: os.homedir(),
+    _root: pathMethod.parse(os.homedir()).root,
 
     init() {
       this.userName = getUserName();
@@ -23,7 +24,7 @@ const store = () => {
       }
     },
     getAbsolutePath(destination) {
-      if (destination.startsWith(this._homeDir)) {
+      if (destination.startsWith(this._root)) {
         return destination;
       }
       const newPath = pathMethod.join(currentDir, destination);
@@ -40,9 +41,6 @@ const store = () => {
     },
     up() {
       const newPath = pathMethod.join(currentDir, '..');
-      if (!newPath.startsWith(this._homeDir)) {
-        throw Error('Operation failed');
-      }
       currentDir = newPath;
     },
     printCurrentDir() {
