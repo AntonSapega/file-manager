@@ -3,18 +3,26 @@ import zlib from 'zlib';
 import { pipeline } from 'stream/promises';
 import { storeController } from '../storage/initStore.js';
 
-const decompress = async (pathToSource, destination) => {
+const zip = async (operation, pathToSource, destination) => {
   const absolutePathToSource = storeController.getAbsolutePath(pathToSource);
   const absoluteDestinationPath = storeController.getAbsolutePath(destination);
   const readStream = createReadStream(absolutePathToSource);
-  const decompressStream = zlib.createBrotliDecompress();
   const writeStream = createWriteStream(absoluteDestinationPath);
+  let archiver = null;
+
+  switch (operation) {
+    case 'compress':
+      archiver = zlib.createBrotliCompress();
+      break;
+    case 'decompress':
+      archiver = zlib.createBrotliDecompress();
+  }
 
   try {
-    await pipeline(readStream, decompressStream, writeStream);
+    await pipeline(readStream, archiver, writeStream);
   } catch (e) {
     throw Error('Operation failed');
   }
 };
 
-export { decompress };
+export { zip };

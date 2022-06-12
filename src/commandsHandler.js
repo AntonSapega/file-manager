@@ -9,8 +9,7 @@ import { moveFile } from './basicFileOperations/moveFile.js';
 import { deleteFile } from './basicFileOperations/deleteFile.js';
 import { osHandler } from './os/osHandler.js';
 import { makeHash } from './hash/makeHash.js';
-import { compress } from './zip/compress.js';
-import { decompress } from './zip/decompress.js';
+import { zip } from './zip/zip.js';
 
 const commandsHandler = async (command, params, readline) => {
   try {
@@ -71,13 +70,13 @@ const commandsHandler = async (command, params, readline) => {
       case 'compress':
         const compressData = params.split(' ');
         const [pathToSourceFile, finalPath] = compressData;
-        await compress(pathToSourceFile, finalPath);
+        await zip('compress', pathToSourceFile, finalPath);
         storeController.printCurrentDir();
         break;
       case 'decompress':
         const decompressData = params.split(' ');
         const [routeToSourceFile, finalRoute] = decompressData;
-        await decompress(routeToSourceFile, finalRoute);
+        await zip('decompress', routeToSourceFile, finalRoute);
         storeController.printCurrentDir();
         break;
       default:
